@@ -1,0 +1,32 @@
+﻿<Window x:Class="Things_control.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Things_control"
+        mc:Ignorable="d"
+        Title="Things" Height="450" Width="800">
+    <Grid>
+        <ListBox x:Name="List_of_things" Grid.Column="0" Margin="36,26,462,66" SelectionChanged="List_of_things_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button Content="Вывести" Click="Show_Click" HorizontalAlignment="Left" Margin="36,373,0,0" VerticalAlignment="Top" Height="27" Width="78"/>
+        <Button Content="Добавить" Click="Add_Click" HorizontalAlignment="Left" Margin="148,373,0,0" VerticalAlignment="Top" Height="27" Width="78"/>
+        <Button Content="Удалить" Click="Delete_Click" HorizontalAlignment="Left" Margin="260,373,0,0" VerticalAlignment="Top" Height="27" Width="78"/>
+
+        <Border x:Name="Details" Margin="368,26,35,48" Padding="10" Background="Lavender" Visibility="Collapsed">
+            <StackPanel>
+                <Button Content="Х" HorizontalAlignment="Right" Click="CloseDetails_Click" Margin="0,0,0,10" Height="27" Width="30"/>
+                <TextBlock x:Name="DetailsText" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>

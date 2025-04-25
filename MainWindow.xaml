@@ -20,6 +20,7 @@
         <Button Content="Вывести" Click="Show_Click" HorizontalAlignment="Left" Margin="36,373,0,0" VerticalAlignment="Top" Height="27" Width="78"/>
         <Button Content="Добавить" Click="Add_Click" HorizontalAlignment="Left" Margin="148,373,0,0" VerticalAlignment="Top" Height="27" Width="78"/>
         <Button Content="Удалить" Click="Delete_Click" HorizontalAlignment="Left" Margin="260,373,0,0" VerticalAlignment="Top" Height="27" Width="78"/>
+        <Button Content="Открыть файл команд" Click="Cmd_Click" HorizontalAlignment="Left" Margin="489,373,0,0" Width="165" VerticalAlignment="Top" Height="27"/>
 
         <Border x:Name="Details" Margin="368,26,35,48" Padding="10" Background="Lavender" Visibility="Collapsed">
             <StackPanel>

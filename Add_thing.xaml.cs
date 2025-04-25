@@ -121,7 +121,7 @@ namespace Things_control
                 return;
             }
 
-            // Находим следующую позицию для ввода цифры
+            // Следующая позиция для ввода цифры
             int pos = GetNextDigitPosition(textBox.Text, textBox.CaretIndex);
             if (pos == -1)
             {

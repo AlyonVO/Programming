@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Windows;
 
 
 namespace Things_control
@@ -7,6 +8,8 @@ namespace Things_control
     {
         void AddThing(Thing thing);
         void DeleteThingByName(string name);
+        void Read_txt(string filePath);
+        void SaveDataToFile(string filePath);
 
     }
 
@@ -21,14 +24,41 @@ namespace Things_control
             this.filePath = filePath;
         }
 
-        // Добавление объекта
+        public void Read_txt(string filePath)
+        {
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.StartsWith("food"))
+                        {
+                            var food = Thing.Read(line);
+                            things.Add(food);
+                        }
+                        else if (!line.StartsWith("food"))
+                        {
+                            var notFood = Thing.Read(line);
+                            things.Add(notFood);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка чтения: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         public void AddThing(Thing thing)
         {
             things.Add(thing);
-            SaveDataToFile();
+            SaveDataToFile(filePath);
         }
 
-        // Удаление объекта по имени
         public void DeleteThingByName(string name)
         {
             var itemToRemove = things.FirstOrDefault(item => item.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
@@ -36,7 +66,7 @@ namespace Things_control
             if (itemToRemove != null)
             {
                 things.Remove(itemToRemove);
-                SaveDataToFile();
+                SaveDataToFile(filePath);
             }
 
             else
@@ -45,13 +75,11 @@ namespace Things_control
             }
         }
 
-        // Сохранение данных в файл
-        private void SaveDataToFile()
+        public void SaveDataToFile(string filePath)
         {
             try
             {
-                using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-                using (StreamWriter writer = new StreamWriter(fs))
+                using (StreamWriter writer = new StreamWriter(filePath))
                 {
                     foreach (var item in things)
                     {

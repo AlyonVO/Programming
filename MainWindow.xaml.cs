@@ -8,9 +8,9 @@ namespace Things_control
 
     public partial class MainWindow : Window
     {
-        List<Thing> things = new List<Thing>();
-        string path = "C://Users/alyon/source/repos/Things_control/things.txt";
+        private List<Thing> things = new List<Thing>();
         private ITxt_work txt_work;
+        private string path = "C://Users/alyon/source/repos/Things_control/things.txt";
 
         public MainWindow()
         {
@@ -20,37 +20,8 @@ namespace Things_control
 
         private void Show_Click(object sender, RoutedEventArgs e)
         {
-
-            try
-            {
-                things.Clear();
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        if (line.StartsWith("food"))
-                        {
-                            var food = Thing.Read(line);
-                            things.Add(food);
-                        }
-                        else if (!line.StartsWith("food"))
-                        {
-                            var notFood = Thing.Read(line);
-                            things.Add(notFood);
-                        }
-                    }
-                }
-
-                List_of_things.ItemsSource = things;
-            }
-
-
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка чтения: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-
+            txt_work.Read_txt(path);
+            List_of_things.ItemsSource = things;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -136,6 +107,31 @@ namespace Things_control
             Details.Visibility = Visibility.Collapsed;
             List_of_things.SelectedItem = null;
         }
-    }
 
+        private void Cmd_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Текстовые файлы (*.txt)|*.txt",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    var commandProcessor = new CommandProcessor();
+                    commandProcessor.ProcessCommands(openFileDialog.FileName, things, txt_work);      
+                    List_of_things.Items.Refresh();
+                    txt_work.SaveDataToFile(path);
+                }
+
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка выполнения команд: {ex.Message}", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+    }
 }
